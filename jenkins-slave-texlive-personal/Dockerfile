@@ -1,12 +1,13 @@
 FROM pitkley/jenkins-slave-texlive
 MAINTAINER Pit Kleyersburg <pitkley@googlemail.com>
 
-RUN apt-get update
-RUN apt-get -y upgrade
-RUN tlmgr update --all
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        gnuplot \
+        make \
+        ghostscript \
+        python-setuptools \
+        && rm -rf /var/lib/apt/lists/*
 
-RUN apt-get -y install gnuplot make ghostscript
-RUN apt-get -y install python-setuptools
 RUN easy_install pip
 RUN pip install pygments
 

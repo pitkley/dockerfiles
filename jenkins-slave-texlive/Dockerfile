@@ -5,22 +5,22 @@ MAINTAINER Pit Kleyersburg <pitkley@googlemail.com>
 # image `leodido/texlive`, just based on `evarga:jenkins-slave` and thus
 # adapted to `apt-get`.
 
-RUN apt-get update
-RUN apt-get -y upgrade
-RUN apt-get -y install git
+RUN apt-get update && apt-get install -y --no-install-recommends git \
+        && rm -rf /var/lib/apt/lists/*
 
 ENV TL install-tl-2015
-RUN mkdir -p $TL
 
-RUN wget -nv -O $TL.tar.gz http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz
-RUN tar -xzf $TL.tar.gz -C $TL --strip-components=1
+RUN mkdir -p $TL
 ADD full.profile $TL/
 
-RUN cd $TL/ && ./install-tl --persistent-downloads --profile full.profile
+RUN cd $TL/ \
+    && wget -nv -O $TL.tar.gz http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz \
+    && tar -xzf $TL.tar.gz --strip-components=1 \
+    && ./install-tl --persistent-downloads --profile full.profile \
+    && cd / \
+    && rm -rf $TL
 
 ENV PATH $PATH:/usr/local/texlive/2015/bin/x86_64-linux
-
-RUN rm $TL.tar.gz && rm -r $TL
 
 RUN [ -f $(kpsewhich -var-value TEXMFSYSVAR)/fonts/conf/texlive-fontconfig.conf ] && cp $(kpsewhich -var-value TEXMFSYSVAR)/fonts/conf/texlive-fontconfig.conf /etc/fonts/conf.d/09-texlive.conf || :
 RUN fc-cache -fsv
