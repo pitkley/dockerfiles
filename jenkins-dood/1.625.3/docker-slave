@@ -1,1 +1,75 @@
-../docker-slave
+#!/usr/bin/env python2.7
+
+import argparse
+import subprocess
+
+
+def get_command_output(cmd):
+    return subprocess.check_output(cmd)
+
+
+def get_local_docker_ip():
+    hostname = get_command_output("hostname").strip()
+    hosts_line = get_command_output(["grep", hostname, "/etc/hosts"])
+    if not hosts_line:
+        return None
+    return hosts_line.split()[0]
+
+
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--job-name',
+                        required=True)
+    parser.add_argument('--build-id',
+                        required=True)
+    parser.add_argument('--jenkins-port',
+                        type=int,
+                        required=False,
+                        default=8080)
+    parser.add_argument('-u', '--username',
+                        help="The Jenkins-user to authenticate as")
+    parser.add_argument('-p', '--password',
+                        help="The password/API-token from the Jenkins-user")
+    parser.add_argument('-i', '--image',
+                        required=True)
+    parser.add_argument('options',
+                        nargs=argparse.REMAINDER)
+
+    args = parser.parse_args()
+    return args
+
+
+def main():
+    args = parse_args()
+
+    # Build up container name
+    container_name = "jenkins-{job_name}-{build_id}".format(job_name=args.job_name.split("/")[-1],
+                                                            build_id=args.build_id)
+
+    # Get additional jenkins-slave options
+    options = args.options
+
+    # Strip "--"-argument if it is there
+    if options and options[0] == "--":
+        options = options[1:]
+
+    cmd = ["docker",
+           "run", "-d",
+           "--name", container_name,
+           args.image,
+           "-master", "http://{host}:{port}".format(host=get_local_docker_ip(), port=args.jenkins_port)]
+
+    if args.username:
+        cmd += ["-username", args.username]
+    if args.password:
+        cmd += ["-password", args.password]
+
+    if options:
+        cmd += options
+
+    subprocess.call(cmd)
+
+
+if __name__ == '__main__':
+    main()
+
