@@ -20,7 +20,7 @@ def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--job-name',
                         required=True)
-    parser.add_argument('--build-id',
+    parser.add_argument('--build-number',
                         required=True)
     parser.add_argument('--jenkins-port',
                         type=int,
@@ -43,8 +43,8 @@ def main():
     args = parse_args()
 
     # Build up container name
-    container_name = "jenkins-{job_name}-{build_id}".format(job_name=args.job_name.split("/")[-1],
-                                                            build_id=args.build_id)
+    container_name = "jenkins-{job_name}-{build_number}".format(job_name=args.job_name.split("/")[-1],
+                                                                build_number=args.build_number)
 
     # Get additional jenkins-slave options
     options = args.options
