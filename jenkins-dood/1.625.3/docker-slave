@@ -30,12 +30,11 @@ def parse_args():
                         help="The Jenkins-user to authenticate as")
     parser.add_argument('-p', '--password',
                         help="The password/API-token from the Jenkins-user")
-    parser.add_argument('-i', '--image',
-                        required=True)
-    parser.add_argument('--rm',
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument('-i', '--image')
+    group.add_argument('--rm',
                         action='store_true',
-                        default=False,
-                        required=False)
+                        default=False)
     parser.add_argument('options',
                         nargs=argparse.REMAINDER)
 
@@ -47,7 +46,7 @@ def main():
     args = parse_args()
 
     # Build up container name
-    container_name = "jenkins-{job_name}-{build_number}".format(job_name=args.job_name.split("/")[-1],
+    container_name = "jenkins_slave_{job_name}_{build_number}".format(job_name=args.job_name.split("/")[-1],
                                                                 build_number=args.build_number)
 
     # Remove existing slave?
