@@ -32,6 +32,10 @@ def parse_args():
                         help="The password/API-token from the Jenkins-user")
     parser.add_argument('-i', '--image',
                         required=True)
+    parser.add_argument('--rm',
+                        action='store_true',
+                        default=False,
+                        required=False)
     parser.add_argument('options',
                         nargs=argparse.REMAINDER)
 
@@ -45,6 +49,15 @@ def main():
     # Build up container name
     container_name = "jenkins-{job_name}-{build_number}".format(job_name=args.job_name.split("/")[-1],
                                                                 build_number=args.build_number)
+
+    # Remove existing slave?
+    if args.rm:
+        cmd = ["docker",
+               "rm", "-f",
+               container_name]
+
+        subprocess.check_call(cmd)
+        return
 
     # Get additional jenkins-slave options
     options = args.options
@@ -67,7 +80,7 @@ def main():
     if options:
         cmd += options
 
-    subprocess.call(cmd)
+    subprocess.check_call(cmd)
 
 
 if __name__ == '__main__':
