@@ -4,7 +4,7 @@ MAINTAINER Pit Kleyersburg <pitkley@googlemail.com>
 USER root
 
 RUN apt-get update \
-    && apt-get install -y libapparmor1 sudo \
+    && apt-get install -y libapparmor1 libsystemd-journal0 sudo \
     && rm -rf /var/lib/apt/lists/*
 
 RUN echo "jenkins ALL=NOPASSWD: /usr/bin/docker-host *" >> /etc/sudoers
