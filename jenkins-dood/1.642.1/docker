@@ -1,4 +1,4 @@
 #!/bin/sh
 
-sudo /usr/bin/docker-host "$@"
+sudo /usr/local/bin/docker-standalone "$@"
 
