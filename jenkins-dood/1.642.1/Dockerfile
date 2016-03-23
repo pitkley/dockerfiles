@@ -11,6 +11,10 @@ RUN curl -fSL "https://${DOCKER_BUCKET}/builds/Linux/x86_64/docker-$DOCKER_VERSI
     && echo "${DOCKER_SHA256}  /usr/local/bin/docker-standalone" | sha256sum -c - \
     && chmod +x /usr/local/bin/docker-standalone
 
+RUN apt-get update \
+    && apt-get install -y sudo \
+    && rm -rf /var/lib/apt/lists/*
+
 RUN echo "jenkins ALL=NOPASSWD: /usr/local/bin/docker-standalone *" >> /etc/sudoers
 COPY docker /usr/bin/docker
 
