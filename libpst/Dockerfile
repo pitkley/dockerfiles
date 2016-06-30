@@ -6,7 +6,7 @@ ENV DEBIAN_FRONTEND noninteractive
 ENV BUILD_PACKAGES gcc g++ make wget libpython2.7-dev libgsf-1-dev libboost-python-dev
 ENV PACKAGES libgsf-1-114
 
-ENV LIBPST_VERSION 0.6.64
+ENV LIBPST_VERSION 0.6.66
 
 RUN apt-get update && apt-get install -y --no-install-recommends $BUILD_PACKAGES $PACKAGES \
         && rm -rf /var/lib/apt/lists/* \
