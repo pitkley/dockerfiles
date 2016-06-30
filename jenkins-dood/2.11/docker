@@ -1,4 +1,4 @@
 #!/bin/sh
 
-sudo /usr/local/bin/docker-standalone "$@"
+sudo /usr/local/bin/docker-standalone $DOCKER_OPTS "$@"
 
