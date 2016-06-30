@@ -1,4 +1,4 @@
-FROM csanchez/jenkins-swarm-slave
+FROM pitkley/jenkins-swarm-slave
 MAINTAINER Pit Kleyersburg <pitkley@googlemail.com>
 
 USER root

@@ -1,14 +1,14 @@
-FROM csanchez/jenkins-swarm-slave
+FROM pitkley/jenkins-swarm-slave
 MAINTAINER Pit Kleyersburg <pitkley@googlemail.com>
 
 USER root
 
-# Install python 2.7.11
-ENV PYTHON_VERSION 2.7.11
+# Install python 3.4.5
+ENV PYTHON_VERSION 3.4.5
 ENV PYENV_ROOT /pyenv
 ENV PATH $PYENV_ROOT/bin:$PATH
 
-ENV PYENV_REF 5c5205e172f532a7e7511f86666b1d842198e73a
+ENV PYENV_REF tags/v20160629
 
 ENV BUILD_PACKAGES build-essential libreadline-dev zlib1g-dev libssl-dev libbz2-dev libsqlite3-dev
 RUN apt-get update \
