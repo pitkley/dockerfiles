@@ -1,4 +1,4 @@
-FROM jenkinsci/jenkins:2.11
+FROM jenkins:2.7.1
 MAINTAINER Pit Kleyersburg <pitkley@googlemail.com>
 
 USER root
