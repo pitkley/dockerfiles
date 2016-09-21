@@ -5,7 +5,7 @@ MAINTAINER Pit Kleyersburg <pitkley@googlemail.com>
 # image `leodido/texlive`, just based on `evarga:jenkins-slave` and thus
 # adapted to `apt-get`.
 
-RUN apt-get update && apt-get install -y --no-install-recommends git \
+RUN apt-get update && apt-get install -y --no-install-recommends git wget fontconfig \
         && rm -rf /var/lib/apt/lists/*
 
 ENV TL install-tl-2015
