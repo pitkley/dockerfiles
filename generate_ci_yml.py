@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3.5
 
 from glob import glob
 
@@ -43,6 +43,8 @@ TEMPLATE_CONTENT_VERSION = """
 
 {package}:{version}:push:
     stage: push
+    only:
+        - master
     script:
         - docker push pitkley/{package}:{version}
 """
