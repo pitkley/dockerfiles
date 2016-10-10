@@ -16,6 +16,7 @@ pull:
         - 'docker pull dock0/arch || :'
         - 'docker pull evarga/jenkins-slave || :'
         - 'docker pull java:8-jdk || :'
+        - 'docker pull jenkins:2.19.1 || :'
         - 'docker pull jenkins:2.7.4 || :'
         - 'docker pull phusion/baseimage:0.9.17 || :'
         - 'docker pull pitkley/jenkins-slave-texlive || :'
@@ -31,6 +32,8 @@ arch-makepkg:latest:build:
 
 arch-makepkg:latest:push:
     stage: push
+    only:
+        - master
     script:
         - docker push pitkley/arch-makepkg:latest
 
@@ -42,8 +45,49 @@ jenkins-dood:2:build:
 
 jenkins-dood:2:push:
     stage: push
+    only:
+        - master
     script:
         - docker push pitkley/jenkins-dood:2
+
+jenkins-dood:2.19:build:
+    stage: build
+    script:
+        - cd jenkins-dood/2.19
+        - docker build -t pitkley/jenkins-dood:2.19 .
+
+jenkins-dood:2.19:push:
+    stage: push
+    only:
+        - master
+    script:
+        - docker push pitkley/jenkins-dood:2.19
+
+jenkins-dood:2.19.1:build:
+    stage: build
+    script:
+        - cd jenkins-dood/2.19.1
+        - docker build -t pitkley/jenkins-dood:2.19.1 .
+
+jenkins-dood:2.19.1:push:
+    stage: push
+    only:
+        - master
+    script:
+        - docker push pitkley/jenkins-dood:2.19.1
+
+jenkins-dood:2.7:build:
+    stage: build
+    script:
+        - cd jenkins-dood/2.7
+        - docker build -t pitkley/jenkins-dood:2.7 .
+
+jenkins-dood:2.7:push:
+    stage: push
+    only:
+        - master
+    script:
+        - docker push pitkley/jenkins-dood:2.7
 
 jenkins-dood:2.7.4:build:
     stage: build
@@ -53,6 +97,8 @@ jenkins-dood:2.7.4:build:
 
 jenkins-dood:2.7.4:push:
     stage: push
+    only:
+        - master
     script:
         - docker push pitkley/jenkins-dood:2.7.4
 
@@ -64,6 +110,8 @@ jenkins-dood:latest:build:
 
 jenkins-dood:latest:push:
     stage: push
+    only:
+        - master
     script:
         - docker push pitkley/jenkins-dood:latest
 
@@ -75,6 +123,8 @@ jenkins-slave-texlive:latest:build:
 
 jenkins-slave-texlive:latest:push:
     stage: push
+    only:
+        - master
     script:
         - docker push pitkley/jenkins-slave-texlive:latest
 
@@ -86,6 +136,8 @@ jenkins-slave-texlive:swarm:build:
 
 jenkins-slave-texlive:swarm:push:
     stage: push
+    only:
+        - master
     script:
         - docker push pitkley/jenkins-slave-texlive:swarm
 
@@ -97,6 +149,8 @@ jenkins-slave-texlive-personal:latest:build:
 
 jenkins-slave-texlive-personal:latest:push:
     stage: push
+    only:
+        - master
     script:
         - docker push pitkley/jenkins-slave-texlive-personal:latest
 
@@ -108,6 +162,8 @@ jenkins-slave-texlive-personal:swarm:build:
 
 jenkins-slave-texlive-personal:swarm:push:
     stage: push
+    only:
+        - master
     script:
         - docker push pitkley/jenkins-slave-texlive-personal:swarm
 
@@ -119,6 +175,8 @@ jenkins-swarm-slave:latest:build:
 
 jenkins-swarm-slave:latest:push:
     stage: push
+    only:
+        - master
     script:
         - docker push pitkley/jenkins-swarm-slave:latest
 
@@ -130,6 +188,8 @@ libpst:latest:build:
 
 libpst:latest:push:
     stage: push
+    only:
+        - master
     script:
         - docker push pitkley/libpst:latest
 
@@ -141,6 +201,8 @@ maven-swarm:3:build:
 
 maven-swarm:3:push:
     stage: push
+    only:
+        - master
     script:
         - docker push pitkley/maven-swarm:3
 
@@ -152,6 +214,8 @@ maven-swarm:3.3:build:
 
 maven-swarm:3.3:push:
     stage: push
+    only:
+        - master
     script:
         - docker push pitkley/maven-swarm:3.3
 
@@ -163,6 +227,8 @@ maven-swarm:3.3.9:build:
 
 maven-swarm:3.3.9:push:
     stage: push
+    only:
+        - master
     script:
         - docker push pitkley/maven-swarm:3.3.9
 
@@ -174,6 +240,8 @@ maven-swarm:latest:build:
 
 maven-swarm:latest:push:
     stage: push
+    only:
+        - master
     script:
         - docker push pitkley/maven-swarm:latest
 
@@ -185,6 +253,8 @@ platformio:2:build:
 
 platformio:2:push:
     stage: push
+    only:
+        - master
     script:
         - docker push pitkley/platformio:2
 
@@ -196,6 +266,8 @@ platformio:2.11.2:build:
 
 platformio:2.11.2:push:
     stage: push
+    only:
+        - master
     script:
         - docker push pitkley/platformio:2.11.2
 
@@ -207,6 +279,8 @@ platformio:3:build:
 
 platformio:3:push:
     stage: push
+    only:
+        - master
     script:
         - docker push pitkley/platformio:3
 
@@ -218,6 +292,8 @@ platformio:3.0.1:build:
 
 platformio:3.0.1:push:
     stage: push
+    only:
+        - master
     script:
         - docker push pitkley/platformio:3.0.1
 
@@ -229,6 +305,8 @@ platformio:latest:build:
 
 platformio:latest:push:
     stage: push
+    only:
+        - master
     script:
         - docker push pitkley/platformio:latest
 
@@ -240,6 +318,8 @@ python-swarm:2:build:
 
 python-swarm:2:push:
     stage: push
+    only:
+        - master
     script:
         - docker push pitkley/python-swarm:2
 
@@ -251,6 +331,8 @@ python-swarm:2.6:build:
 
 python-swarm:2.6:push:
     stage: push
+    only:
+        - master
     script:
         - docker push pitkley/python-swarm:2.6
 
@@ -262,6 +344,8 @@ python-swarm:2.6.9:build:
 
 python-swarm:2.6.9:push:
     stage: push
+    only:
+        - master
     script:
         - docker push pitkley/python-swarm:2.6.9
 
@@ -273,6 +357,8 @@ python-swarm:2.7:build:
 
 python-swarm:2.7:push:
     stage: push
+    only:
+        - master
     script:
         - docker push pitkley/python-swarm:2.7
 
@@ -284,6 +370,8 @@ python-swarm:2.7.12:build:
 
 python-swarm:2.7.12:push:
     stage: push
+    only:
+        - master
     script:
         - docker push pitkley/python-swarm:2.7.12
 
@@ -295,6 +383,8 @@ python-swarm:3:build:
 
 python-swarm:3:push:
     stage: push
+    only:
+        - master
     script:
         - docker push pitkley/python-swarm:3
 
@@ -306,6 +396,8 @@ python-swarm:3.4:build:
 
 python-swarm:3.4:push:
     stage: push
+    only:
+        - master
     script:
         - docker push pitkley/python-swarm:3.4
 
@@ -317,6 +409,8 @@ python-swarm:3.4.5:build:
 
 python-swarm:3.4.5:push:
     stage: push
+    only:
+        - master
     script:
         - docker push pitkley/python-swarm:3.4.5
 
@@ -328,6 +422,8 @@ python-swarm:3.5:build:
 
 python-swarm:3.5:push:
     stage: push
+    only:
+        - master
     script:
         - docker push pitkley/python-swarm:3.5
 
@@ -339,6 +435,8 @@ python-swarm:3.5.2:build:
 
 python-swarm:3.5.2:push:
     stage: push
+    only:
+        - master
     script:
         - docker push pitkley/python-swarm:3.5.2
 
@@ -350,6 +448,8 @@ python-swarm:latest:build:
 
 python-swarm:latest:push:
     stage: push
+    only:
+        - master
     script:
         - docker push pitkley/python-swarm:latest
 
@@ -361,6 +461,8 @@ samba-ad-dc:latest:build:
 
 samba-ad-dc:latest:push:
     stage: push
+    only:
+        - master
     script:
         - docker push pitkley/samba-ad-dc:latest
 
