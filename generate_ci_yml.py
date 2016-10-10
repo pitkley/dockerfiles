@@ -30,6 +30,8 @@ TEMPLATE_CONTENT = """
 
 {package}:latest:push:
     stage: push
+    only:
+        - master
     script:
         - docker push pitkley/{package}:latest
 """
