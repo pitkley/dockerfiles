@@ -15,6 +15,7 @@ pull:
         - 'docker pull debian:8.1 || :'
         - 'docker pull dock0/arch || :'
         - 'docker pull evarga/jenkins-slave || :'
+        - 'docker pull golang:1.7 || :'
         - 'docker pull java:8-jdk || :'
         - 'docker pull jenkins:2.19.1 || :'
         - 'docker pull jenkins:2.7.4 || :'
@@ -179,6 +180,19 @@ jenkins-swarm-slave:latest:push:
         - master
     script:
         - docker push pitkley/jenkins-swarm-slave:latest
+
+journalbeat:latest:build:
+    stage: build
+    script:
+        - cd journalbeat
+        - docker build -t pitkley/journalbeat:latest .
+
+journalbeat:latest:push:
+    stage: push
+    only:
+        - master
+    script:
+        - docker push pitkley/journalbeat:latest
 
 libpst:latest:build:
     stage: build
