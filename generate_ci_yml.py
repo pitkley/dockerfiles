@@ -31,6 +31,11 @@ TEMPLATE_PULL_SCRIPT = """        - 'docker pull {image} || :'"""
 TEMPLATE_CONTENT = """
 {package}:latest:build:
     stage: build stage {stage}
+    only:
+        - master
+        - /ci-/
+        - /-ci/
+        - /{package}/
     script:
         - cd {package}
         - docker build -t pitkley/{package}:latest .
@@ -46,6 +51,11 @@ TEMPLATE_CONTENT = """
 TEMPLATE_CONTENT_VERSION = """
 {package}:{version}:build:
     stage: build stage {stage}
+    only:
+        - master
+        - /ci-/
+        - /-ci/
+        - /{package}/
     script:
         - cd {package}/{version}
         - docker build -t pitkley/{package}:{version} .
