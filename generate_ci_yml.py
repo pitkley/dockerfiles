@@ -148,7 +148,7 @@ def main():
 
     # Build output
     pull = "\n".join([TEMPLATE_PULL] + [TEMPLATE_PULL_SCRIPT.format(image=image) for image in sorted(base_images)])
-    content = [get_template_content(n + 1, path) for n in range(len(buckets)) for path in buckets[n]]
+    content = [get_template_content(n + 1, path) for n in range(len(buckets)) for path in sorted(buckets[n])]
     output = TEMPLATE_BASE.format(
         build_stages="\n".join([TEMPLATE_STAGE.format(i=n + 1) for n in range(len(buckets))]),
         pull=pull,
