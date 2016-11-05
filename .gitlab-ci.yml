@@ -13,6 +13,7 @@ stages:
     - build stage 10
     - build stage 11
     - push
+    - cleanup
 
 before_script:
     - docker info
@@ -665,4 +666,12 @@ python-swarm:latest:push:
     script:
         - docker push pitkley/python-swarm:latest
 
+
+cleanup unused docker images:
+    stage: cleanup
+    allow_failure: true
+    script: >
+        docker images --format '{{.ID}} {{.Tag}}' |
+        awk '$2 ~ /<none>/ {print $1}' |
+        xargs docker rmi
 

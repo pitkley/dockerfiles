@@ -12,12 +12,21 @@ stages:
     - pull
 {build_stages}
     - push
+    - cleanup
 
 before_script:
     - docker info
 
 {pull}
 {content}
+
+cleanup unused docker images:
+    stage: cleanup
+    allow_failure: true
+    script: >
+        docker images --format '{{{{.ID}}}} {{{{.Tag}}}}' |
+        awk '$2 ~ /<none>/ {{print $1}}' |
+        xargs docker rmi
 """
 
 TEMPLATE_STAGE ="""    - build stage {i}"""
