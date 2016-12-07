@@ -28,7 +28,7 @@ pull:
         - 'docker pull evarga/jenkins-slave || :'
         - 'docker pull golang:1.7 || :'
         - 'docker pull java:8-jdk || :'
-        - 'docker pull jenkins:2.19.1 || :'
+        - 'docker pull jenkins:2.19.4 || :'
         - 'docker pull jenkins:2.7.4 || :'
         - 'docker pull phusion/baseimage:0.9.17 || :'
         - 'docker pull pitkley/jenkins-slave-texlive || :'
@@ -324,7 +324,7 @@ python-swarm:2:push:
     script:
         - docker push pitkley/python-swarm:2
 
-jenkins-dood:2.19.1:build:
+jenkins-dood:2.19.4:build:
     stage: build stage 3
     only:
         - master
@@ -332,15 +332,15 @@ jenkins-dood:2.19.1:build:
         - /-ci/
         - /jenkins-dood/
     script:
-        - cd jenkins-dood/2.19.1
-        - docker build -t pitkley/jenkins-dood:2.19.1 .
+        - cd jenkins-dood/2.19.4
+        - docker build -t pitkley/jenkins-dood:2.19.4 .
 
-jenkins-dood:2.19.1:push:
+jenkins-dood:2.19.4:push:
     stage: push
     only:
         - master
     script:
-        - docker push pitkley/jenkins-dood:2.19.1
+        - docker push pitkley/jenkins-dood:2.19.4
 
 jenkins-slave-texlive-personal:swarm:build:
     stage: build stage 3
