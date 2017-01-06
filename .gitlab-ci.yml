@@ -29,7 +29,7 @@ pull:
         - 'docker pull golang:1.7 || :'
         - 'docker pull java:8-jdk || :'
         - 'docker pull jenkins:2.19.4 || :'
-        - 'docker pull jenkins:2.7.4 || :'
+        - 'docker pull jenkins:2.32.1 || :'
         - 'docker pull phusion/baseimage:0.9.17 || :'
         - 'docker pull pitkley/jenkins-slave-texlive || :'
         - 'docker pull pitkley/jenkins-slave-texlive:swarm || :'
@@ -414,7 +414,7 @@ python-swarm:2.6.9:push:
     script:
         - docker push pitkley/python-swarm:2.6.9
 
-jenkins-dood:2.7:build:
+jenkins-dood:2.32:build:
     stage: build stage 4
     only:
         - master
@@ -422,15 +422,15 @@ jenkins-dood:2.7:build:
         - /-ci/
         - /jenkins-dood/
     script:
-        - cd jenkins-dood/2.7
-        - docker build -t pitkley/jenkins-dood:2.7 .
+        - cd jenkins-dood/2.32
+        - docker build -t pitkley/jenkins-dood:2.32 .
 
-jenkins-dood:2.7:push:
+jenkins-dood:2.32:push:
     stage: push
     only:
         - master
     script:
-        - docker push pitkley/jenkins-dood:2.7
+        - docker push pitkley/jenkins-dood:2.32
 
 maven-swarm:latest:build:
     stage: build stage 4
@@ -486,7 +486,7 @@ python-swarm:2.7:push:
     script:
         - docker push pitkley/python-swarm:2.7
 
-jenkins-dood:2.7.4:build:
+jenkins-dood:2.32.1:build:
     stage: build stage 5
     only:
         - master
@@ -494,15 +494,15 @@ jenkins-dood:2.7.4:build:
         - /-ci/
         - /jenkins-dood/
     script:
-        - cd jenkins-dood/2.7.4
-        - docker build -t pitkley/jenkins-dood:2.7.4 .
+        - cd jenkins-dood/2.32.1
+        - docker build -t pitkley/jenkins-dood:2.32.1 .
 
-jenkins-dood:2.7.4:push:
+jenkins-dood:2.32.1:push:
     stage: push
     only:
         - master
     script:
-        - docker push pitkley/jenkins-dood:2.7.4
+        - docker push pitkley/jenkins-dood:2.32.1
 
 platformio:latest:build:
     stage: build stage 5
