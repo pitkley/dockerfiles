@@ -27,7 +27,7 @@ pull:
         - 'docker pull dock0/arch || :'
         - 'docker pull evarga/jenkins-slave || :'
         - 'docker pull java:8-jdk || :'
-        - 'docker pull jenkins:2.32.3 || :'
+        - 'docker pull jenkins:2.46.1 || :'
         - 'docker pull phusion/baseimage:0.9.17 || :'
         - 'docker pull pitkley/jenkins-slave-texlive || :'
         - 'docker pull pitkley/jenkins-slave-texlive:swarm || :'
@@ -160,7 +160,7 @@ samba-ad-dc:latest:push:
     script:
         - docker push pitkley/samba-ad-dc:latest
 
-jenkins-dood:2.32:build:
+jenkins-dood:2.46:build:
     stage: build stage 2
     only:
         - master
@@ -168,15 +168,15 @@ jenkins-dood:2.32:build:
         - /-ci/
         - /jenkins-dood/
     script:
-        - cd jenkins-dood/2.32
-        - docker build -t pitkley/jenkins-dood:2.32 .
+        - cd jenkins-dood/2.46
+        - docker build -t pitkley/jenkins-dood:2.46 .
 
-jenkins-dood:2.32:push:
+jenkins-dood:2.46:push:
     stage: push
     only:
         - master
     script:
-        - docker push pitkley/jenkins-dood:2.32
+        - docker push pitkley/jenkins-dood:2.46
 
 jenkins-slave-texlive-personal:latest:build:
     stage: build stage 2
@@ -304,7 +304,7 @@ python-swarm:2:push:
     script:
         - docker push pitkley/python-swarm:2
 
-jenkins-dood:2.32.3:build:
+jenkins-dood:2.46.1:build:
     stage: build stage 3
     only:
         - master
@@ -312,15 +312,15 @@ jenkins-dood:2.32.3:build:
         - /-ci/
         - /jenkins-dood/
     script:
-        - cd jenkins-dood/2.32.3
-        - docker build -t pitkley/jenkins-dood:2.32.3 .
+        - cd jenkins-dood/2.46.1
+        - docker build -t pitkley/jenkins-dood:2.46.1 .
 
-jenkins-dood:2.32.3:push:
+jenkins-dood:2.46.1:push:
     stage: push
     only:
         - master
     script:
-        - docker push pitkley/jenkins-dood:2.32.3
+        - docker push pitkley/jenkins-dood:2.46.1
 
 jenkins-slave-texlive-personal:swarm:build:
     stage: build stage 3
