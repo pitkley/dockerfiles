@@ -22,15 +22,11 @@ before_script:
 pull:
     stage: pull
     script:
-        - 'docker pull csanchez/jenkins-swarm-slave || :'
         - 'docker pull debian:8.1 || :'
         - 'docker pull dock0/arch || :'
-        - 'docker pull evarga/jenkins-slave || :'
         - 'docker pull java:8-jdk || :'
         - 'docker pull jenkins:2.46.1 || :'
         - 'docker pull phusion/baseimage:0.9.17 || :'
-        - 'docker pull pitkley/jenkins-slave-texlive || :'
-        - 'docker pull pitkley/jenkins-slave-texlive:swarm || :'
         - 'docker pull pitkley/jenkins-swarm-slave || :'
         - 'docker pull python:2.7 || :'
 
@@ -69,24 +65,6 @@ jenkins-dood:2:push:
         - master
     script:
         - docker push pitkley/jenkins-dood:2
-
-jenkins-slave-texlive:latest:build:
-    stage: build stage 1
-    only:
-        - master
-        - /ci-/
-        - /-ci/
-        - /jenkins-slave-texlive/
-    script:
-        - cd jenkins-slave-texlive
-        - docker build -t pitkley/jenkins-slave-texlive:latest .
-
-jenkins-slave-texlive:latest:push:
-    stage: push
-    only:
-        - master
-    script:
-        - docker push pitkley/jenkins-slave-texlive:latest
 
 jenkins-swarm-slave:latest:build:
     stage: build stage 1
@@ -177,42 +155,6 @@ jenkins-dood:2.46:push:
         - master
     script:
         - docker push pitkley/jenkins-dood:2.46
-
-jenkins-slave-texlive-personal:latest:build:
-    stage: build stage 2
-    only:
-        - master
-        - /ci-/
-        - /-ci/
-        - /jenkins-slave-texlive-personal/
-    script:
-        - cd jenkins-slave-texlive-personal
-        - docker build -t pitkley/jenkins-slave-texlive-personal:latest .
-
-jenkins-slave-texlive-personal:latest:push:
-    stage: push
-    only:
-        - master
-    script:
-        - docker push pitkley/jenkins-slave-texlive-personal:latest
-
-jenkins-slave-texlive:swarm:build:
-    stage: build stage 2
-    only:
-        - master
-        - /ci-/
-        - /-ci/
-        - /jenkins-slave-texlive/
-    script:
-        - cd jenkins-slave-texlive/swarm
-        - docker build -t pitkley/jenkins-slave-texlive:swarm .
-
-jenkins-slave-texlive:swarm:push:
-    stage: push
-    only:
-        - master
-    script:
-        - docker push pitkley/jenkins-slave-texlive:swarm
 
 maven-swarm:3.3:build:
     stage: build stage 2
@@ -321,24 +263,6 @@ jenkins-dood:2.46.1:push:
         - master
     script:
         - docker push pitkley/jenkins-dood:2.46.1
-
-jenkins-slave-texlive-personal:swarm:build:
-    stage: build stage 3
-    only:
-        - master
-        - /ci-/
-        - /-ci/
-        - /jenkins-slave-texlive-personal/
-    script:
-        - cd jenkins-slave-texlive-personal/swarm
-        - docker build -t pitkley/jenkins-slave-texlive-personal:swarm .
-
-jenkins-slave-texlive-personal:swarm:push:
-    stage: push
-    only:
-        - master
-    script:
-        - docker push pitkley/jenkins-slave-texlive-personal:swarm
 
 maven-swarm:3.3.9:build:
     stage: build stage 3

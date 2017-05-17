@@ -7,6 +7,12 @@ from itertools import chain, islice, tee, zip_longest
 from glob import glob
 
 
+BLACKLIST = [
+    "jenkins-slave-texlive",
+    "jenkins-slave-texlive-personal"
+]
+
+
 TEMPLATE_BASE = """
 stages:
     - pull
@@ -144,7 +150,9 @@ def main():
     groups = defaultdict(list)
 
     # Get packages
-    for path in sorted(glob('*/**/Dockerfile', recursive=True), key=lambda e: e.split("/")):
+    for path in sorted(filter(lambda e: e.split("/")[0] not in BLACKLIST,
+                              glob('*/**/Dockerfile', recursive=True)),
+                       key=lambda e: e.split("/")):
         image = get_base_image(path)
         if image:
             base_images.add(image)
