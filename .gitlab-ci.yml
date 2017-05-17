@@ -25,7 +25,7 @@ pull:
         - 'docker pull debian:8.1 || :'
         - 'docker pull dock0/arch || :'
         - 'docker pull java:8-jdk || :'
-        - 'docker pull jenkins:2.46.1 || :'
+        - 'docker pull jenkins:2.46.2 || :'
         - 'docker pull phusion/baseimage:0.9.17 || :'
         - 'docker pull pitkley/jenkins-swarm-slave || :'
         - 'docker pull python:2.7 || :'
@@ -246,7 +246,7 @@ python-swarm:2:push:
     script:
         - docker push pitkley/python-swarm:2
 
-jenkins-dood:2.46.1:build:
+jenkins-dood:2.46.2:build:
     stage: build stage 3
     only:
         - master
@@ -254,15 +254,15 @@ jenkins-dood:2.46.1:build:
         - /-ci/
         - /jenkins-dood/
     script:
-        - cd jenkins-dood/2.46.1
-        - docker build -t pitkley/jenkins-dood:2.46.1 .
+        - cd jenkins-dood/2.46.2
+        - docker build -t pitkley/jenkins-dood:2.46.2 .
 
-jenkins-dood:2.46.1:push:
+jenkins-dood:2.46.2:push:
     stage: push
     only:
         - master
     script:
-        - docker push pitkley/jenkins-dood:2.46.1
+        - docker push pitkley/jenkins-dood:2.46.2
 
 maven-swarm:3.3.9:build:
     stage: build stage 3
