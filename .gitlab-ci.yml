@@ -25,7 +25,7 @@ pull:
         - 'docker pull debian:8.1 || :'
         - 'docker pull dock0/arch || :'
         - 'docker pull java:8-jdk || :'
-        - 'docker pull jenkins:2.46.2 || :'
+        - 'docker pull jenkins/jenkins:2.79 || :'
         - 'docker pull phusion/baseimage:0.9.17 || :'
         - 'docker pull pitkley/jenkins-swarm-slave || :'
         - 'docker pull python:2.7 || :'
@@ -138,7 +138,7 @@ samba-ad-dc:latest:push:
     script:
         - docker push pitkley/samba-ad-dc:latest
 
-jenkins-dood:2.46:build:
+jenkins-dood:2.79:build:
     stage: build stage 2
     only:
         - master
@@ -146,15 +146,15 @@ jenkins-dood:2.46:build:
         - /-ci/
         - /jenkins-dood/
     script:
-        - cd jenkins-dood/2.46
-        - docker build -t pitkley/jenkins-dood:2.46 .
+        - cd jenkins-dood/2.79
+        - docker build -t pitkley/jenkins-dood:2.79 .
 
-jenkins-dood:2.46:push:
+jenkins-dood:2.79:push:
     stage: push
     only:
         - master
     script:
-        - docker push pitkley/jenkins-dood:2.46
+        - docker push pitkley/jenkins-dood:2.79
 
 maven-swarm:3.3:build:
     stage: build stage 2
@@ -246,7 +246,7 @@ python-swarm:2:push:
     script:
         - docker push pitkley/python-swarm:2
 
-jenkins-dood:2.46.2:build:
+jenkins-dood:latest:build:
     stage: build stage 3
     only:
         - master
@@ -254,15 +254,15 @@ jenkins-dood:2.46.2:build:
         - /-ci/
         - /jenkins-dood/
     script:
-        - cd jenkins-dood/2.46.2
-        - docker build -t pitkley/jenkins-dood:2.46.2 .
+        - cd jenkins-dood/latest
+        - docker build -t pitkley/jenkins-dood:latest .
 
-jenkins-dood:2.46.2:push:
+jenkins-dood:latest:push:
     stage: push
     only:
         - master
     script:
-        - docker push pitkley/jenkins-dood:2.46.2
+        - docker push pitkley/jenkins-dood:latest
 
 maven-swarm:3.3.9:build:
     stage: build stage 3
@@ -317,24 +317,6 @@ python-swarm:2.6.9:push:
         - master
     script:
         - docker push pitkley/python-swarm:2.6.9
-
-jenkins-dood:latest:build:
-    stage: build stage 4
-    only:
-        - master
-        - /ci-/
-        - /-ci/
-        - /jenkins-dood/
-    script:
-        - cd jenkins-dood/latest
-        - docker build -t pitkley/jenkins-dood:latest .
-
-jenkins-dood:latest:push:
-    stage: push
-    only:
-        - master
-    script:
-        - docker push pitkley/jenkins-dood:latest
 
 maven-swarm:latest:build:
     stage: build stage 4
