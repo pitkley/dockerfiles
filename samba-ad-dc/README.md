@@ -1,3 +1,7 @@
+# UNMAINTAINED!
+
+This image is unmaintained. If you are using it and want to take over, feel free to contact me/open an issue.
+
 # Samba4 AD-DC docker container
 
 This is a docker container running Samba4 as a domain controller.

@@ -1,5 +1,4 @@
 FROM phusion/baseimage:0.9.17
-MAINTAINER Pit Kleyersburg <pitkley@googlemail.com>
 
 ENV DEBIAN_FRONTEND noninteractive
 
