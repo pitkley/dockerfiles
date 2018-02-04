@@ -19,6 +19,7 @@ stages:
     - push
     - cleanup
 
+image: docker:latest
 before_script:
     - docker info
 
