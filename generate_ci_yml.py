@@ -7,6 +7,7 @@ from glob import glob
 
 
 BLACKLIST = [
+    "jenkins-dood",
     "jenkins-slave-texlive",
     "jenkins-slave-texlive-personal"
 ]

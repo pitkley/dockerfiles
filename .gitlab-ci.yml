@@ -27,8 +27,6 @@ pull:
         - 'docker pull debian:8.1 || :'
         - 'docker pull dock0/arch || :'
         - 'docker pull java:8-jdk || :'
-        - 'docker pull jenkins/jenkins:latest || :'
-        - 'docker pull jenkins/jenkins:lts || :'
         - 'docker pull phusion/baseimage:0.9.17 || :'
         - 'docker pull python:2-alpine || :'
         - 'docker pull python:2.7 || :'
@@ -50,24 +48,6 @@ arch-makepkg:latest:push:
         - master
     script:
         - docker push pitkley/arch-makepkg:latest
-
-jenkins-dood:latest:build:
-    stage: build stage 1
-    only:
-        - master
-        - /ci-/
-        - /-ci/
-        - /jenkins-dood/
-    script:
-        - cd jenkins-dood/latest
-        - docker build -t pitkley/jenkins-dood:latest .
-
-jenkins-dood:latest:push:
-    stage: push
-    only:
-        - master
-    script:
-        - docker push pitkley/jenkins-dood:latest
 
 jenkins-swarm-slave:latest:build:
     stage: build stage 1
@@ -140,24 +120,6 @@ samba-ad-dc:latest:push:
         - master
     script:
         - docker push pitkley/samba-ad-dc:latest
-
-jenkins-dood:lts:build:
-    stage: build stage 2
-    only:
-        - master
-        - /ci-/
-        - /-ci/
-        - /jenkins-dood/
-    script:
-        - cd jenkins-dood/lts
-        - docker build -t pitkley/jenkins-dood:lts .
-
-jenkins-dood:lts:push:
-    stage: push
-    only:
-        - master
-    script:
-        - docker push pitkley/jenkins-dood:lts
 
 maven-swarm:3:build:
     stage: build stage 2
