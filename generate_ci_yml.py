@@ -2,7 +2,6 @@
 
 from collections import defaultdict
 from functools import lru_cache
-from itertools import chain, islice, tee, zip_longest
 
 from glob import glob
 
@@ -35,7 +34,7 @@ cleanup unused docker images:
         xargs docker rmi
 """
 
-TEMPLATE_STAGE ="""    - build stage {i}"""
+TEMPLATE_STAGE = """    - build stage {i}"""
 
 TEMPLATE_PULL = """
 pull:
@@ -84,13 +83,6 @@ TEMPLATE_CONTENT_VERSION = """
 """
 
 
-# Based on: http://stackoverflow.com/a/1012089/758165
-def this_and_next(some_iterable):
-    items, nexts = tee(some_iterable)
-    nexts = chain(islice(nexts, 1, None), [None])
-    return zip(items, nexts)
-
-
 @lru_cache()
 def get_base_image(path):
     with open(path, "r") as fh:
@@ -98,6 +90,88 @@ def get_base_image(path):
             if not line.startswith("FROM "):
                 continue
             return line.split(" ")[1].strip()
+
+
+def get_image_and_tag(image):
+    i = image.rsplit("/", maxsplit=1)[-1].split(":", maxsplit=1)
+    if len(i) == 1:
+        return (i[0], "latest")
+    return tuple(i)
+
+
+def Tree():
+    return defaultdict(Tree)
+
+
+def dicts(tree):
+    return {k: dicts(tree[k]) for k in tree}
+
+
+def insert_into_tree(tree, element):
+    image, tag, _ = element
+    for sub_element in tree:
+        i, t, _ = sub_element
+        if image == i:
+            # Image exists
+            if tag < t:
+                # Insert before
+                val = tree[sub_element]
+                new_tree = Tree()
+                new_tree[sub_element] = val
+                del tree[sub_element]
+                tree[element] = new_tree
+            else:
+                # Update the structure recursively
+                insert_into_tree(tree[sub_element], element)
+            break
+    else:
+        # Image did not yet exist, create it as a sibling
+        tree[element]
+
+
+def move_into_baseimages(tree, images, base_images):
+    def get_base_image(image, tag, _):
+        for (i, t, b, _) in images:
+            if i == image and t == tag:
+                return b
+        return None
+
+    for top_level_image in list(tree.keys()):
+        base = base_in_tree(tree, get_image_and_tag(get_base_image(*top_level_image)))
+        if base:
+            remove_base(base_images, base)
+            tree[base][top_level_image] = tree[top_level_image]
+            del tree[top_level_image]
+
+
+def remove_base(base_images, base):
+    try:
+        base_images.remove("pitkley/{}".format(base[0]))
+    except:
+        pass
+
+def base_in_tree(tree, base):
+    try:
+        return list(filter(lambda e: e[0] == base[0] and e[1] == base[1], tree.keys()))[0]
+    except:
+        return None
+
+
+def convert_to_buckets(t, l):
+    try:
+        # This works for a single item
+        l.append(list(t.keys()))
+        convert_to_buckets(list(t.values()), l)
+    except AttributeError:
+        # We probably have a list, not a single item
+        if t == []:
+            return
+
+        keys = [k for ks in t for k in ks.keys()]
+        if keys != []:
+            l.append(keys)
+
+        convert_to_buckets([v for vs in t for v in vs.values()], l)
 
 
 def get_template_content(stage, path):
@@ -109,63 +183,42 @@ def get_template_content(stage, path):
     elif len(path) == 3:
         # path is of form "package/version/Dockerfile"
         return TEMPLATE_CONTENT_VERSION.format(stage=stage, package=path[0], version=path[1])
-
-
-def build_buckets(groups):
-    naive_buckets = [list(filter(None.__ne__, l)) for l in zip_longest(*groups.values())]
-    buckets = []
-
-    done = set()
-    for naive_bucket, next_bucket in this_and_next(naive_buckets):
-        # Create data structures
-        bucket = []
-
-        # Create set of images in this bucket
-        images = set()
-        for image in naive_bucket:
-            e = image.split("/")
-            if len(e) == 2:
-                images.add("pitkley/{}".format(e[0]))
-            elif len(e) == 3:
-                images.add("pitkley/{}:{}".format(e[0], e[1]))
-
-        # Work through images
-        for image in naive_bucket:
-            base_image = get_base_image(image)
-
-            if base_image in images and base_image not in done:
-                next_bucket.append(image)
-                continue
-
-            bucket.append(image)
-
-        buckets.append(bucket)
-
-    return buckets
+    else:
+        raise Exception
 
 
 def main():
     base_images = set()
-
-    groups = defaultdict(list)
+    images = []
 
     # Get packages
     for path in sorted(filter(lambda e: e.split("/")[0] not in BLACKLIST,
                               glob('*/**/Dockerfile', recursive=True)),
                        key=lambda e: e.split("/")):
-        image = get_base_image(path)
-        if image:
-            base_images.add(image)
+        base_image = get_base_image(path)
+        if base_image:
+            base_images.add(base_image)
 
-        name = path.split("/")[0]
-        groups[name].append(path)
+        s = path.split("/")
+        try:
+            name, tag, _ = s
+        except:
+            name, tag = s[0], "latest"
+        images.append((name, tag, base_image, path))
 
-    # Build buckets from groups
-    buckets = build_buckets(groups)
+    T = Tree()
+    for (i, t, _, p) in images:
+        insert_into_tree(T, (i, t, p))
+    move_into_baseimages(T, images, base_images)
+
+    buckets = []
+    convert_to_buckets(T, buckets)
 
     # Build output
-    pull = "\n".join([TEMPLATE_PULL] + [TEMPLATE_PULL_SCRIPT.format(image=image) for image in sorted(base_images)])
-    content = [get_template_content(n + 1, path) for n in range(len(buckets)) for path in sorted(buckets[n])]
+    pull = "\n".join([TEMPLATE_PULL] + [TEMPLATE_PULL_SCRIPT.format(image=image)
+                                        for image in sorted(base_images)])
+    content = [get_template_content(n + 1, path) for n in range(len(buckets))
+               for (_, _, path) in sorted(buckets[n])]
     output = TEMPLATE_BASE.format(
         build_stages="\n".join([TEMPLATE_STAGE.format(i=n + 1) for n in range(len(buckets))]),
         pull=pull,
