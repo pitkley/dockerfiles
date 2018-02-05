@@ -7,6 +7,7 @@ from glob import glob
 
 
 BLACKLIST = [
+    "jenkins-dood",
     "jenkins-slave-texlive",
     "jenkins-slave-texlive-personal"
 ]
@@ -19,6 +20,7 @@ stages:
     - push
     - cleanup
 
+image: docker:latest
 before_script:
     - docker info
 
