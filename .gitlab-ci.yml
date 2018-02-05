@@ -29,6 +29,7 @@ pull:
         - 'docker pull jenkins/jenkins:latest || :'
         - 'docker pull jenkins/jenkins:lts || :'
         - 'docker pull phusion/baseimage:0.9.17 || :'
+        - 'docker pull python:2-alpine || :'
         - 'docker pull python:2.7 || :'
 
 arch-makepkg:latest:build:
@@ -283,7 +284,7 @@ maven-swarm:3.3.9:push:
     script:
         - docker push pitkley/maven-swarm:3.3.9
 
-platformio:3.0.1:build:
+platformio:3.5.1:build:
     stage: build stage 4
     only:
         - master
@@ -291,15 +292,15 @@ platformio:3.0.1:build:
         - /-ci/
         - /platformio/
     script:
-        - cd platformio/3.0.1
-        - docker build -t pitkley/platformio:3.0.1 .
+        - cd platformio/3.5.1
+        - docker build -t pitkley/platformio:3.5.1 .
 
-platformio:3.0.1:push:
+platformio:3.5.1:push:
     stage: push
     only:
         - master
     script:
-        - docker push pitkley/platformio:3.0.1
+        - docker push pitkley/platformio:3.5.1
 
 python-swarm:2.6.9:build:
     stage: build stage 4
