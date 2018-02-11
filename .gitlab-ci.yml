@@ -139,7 +139,7 @@ maven-swarm:3:push:
     script:
         - docker push pitkley/maven-swarm:3
 
-platformio:2.11.2:build:
+platformio:2.11:build:
     stage: build stage 2
     only:
         - master
@@ -147,15 +147,15 @@ platformio:2.11.2:build:
         - /-ci/
         - /platformio/
     script:
-        - cd platformio/2.11.2
-        - docker build -t pitkley/platformio:2.11.2 .
+        - cd platformio/2.11
+        - docker build -t pitkley/platformio:2.11 .
 
-platformio:2.11.2:push:
+platformio:2.11:push:
     stage: push
     only:
         - master
     script:
-        - docker push pitkley/platformio:2.11.2
+        - docker push pitkley/platformio:2.11
 
 python-swarm:2:build:
     stage: build stage 2
@@ -193,7 +193,7 @@ maven-swarm:3.3:push:
     script:
         - docker push pitkley/maven-swarm:3.3
 
-platformio:3:build:
+platformio:2.11.2:build:
     stage: build stage 3
     only:
         - master
@@ -201,15 +201,15 @@ platformio:3:build:
         - /-ci/
         - /platformio/
     script:
-        - cd platformio/3
-        - docker build -t pitkley/platformio:3 .
+        - cd platformio/2.11.2
+        - docker build -t pitkley/platformio:2.11.2 .
 
-platformio:3:push:
+platformio:2.11.2:push:
     stage: push
     only:
         - master
     script:
-        - docker push pitkley/platformio:3
+        - docker push pitkley/platformio:2.11.2
 
 python-swarm:2.6:build:
     stage: build stage 3
@@ -247,7 +247,7 @@ maven-swarm:3.3.9:push:
     script:
         - docker push pitkley/maven-swarm:3.3.9
 
-platformio:3.5.1:build:
+platformio:3:build:
     stage: build stage 4
     only:
         - master
@@ -255,15 +255,15 @@ platformio:3.5.1:build:
         - /-ci/
         - /platformio/
     script:
-        - cd platformio/3.5.1
-        - docker build -t pitkley/platformio:3.5.1 .
+        - cd platformio/3
+        - docker build -t pitkley/platformio:3 .
 
-platformio:3.5.1:push:
+platformio:3:push:
     stage: push
     only:
         - master
     script:
-        - docker push pitkley/platformio:3.5.1
+        - docker push pitkley/platformio:3
 
 python-swarm:2.6.9:build:
     stage: build stage 4
@@ -301,7 +301,7 @@ maven-swarm:latest:push:
     script:
         - docker push pitkley/maven-swarm:latest
 
-platformio:latest:build:
+platformio:3.5:build:
     stage: build stage 5
     only:
         - master
@@ -309,15 +309,15 @@ platformio:latest:build:
         - /-ci/
         - /platformio/
     script:
-        - cd platformio/latest
-        - docker build -t pitkley/platformio:latest .
+        - cd platformio/3.5
+        - docker build -t pitkley/platformio:3.5 .
 
-platformio:latest:push:
+platformio:3.5:push:
     stage: push
     only:
         - master
     script:
-        - docker push pitkley/platformio:latest
+        - docker push pitkley/platformio:3.5
 
 python-swarm:2.7:build:
     stage: build stage 5
@@ -337,6 +337,24 @@ python-swarm:2.7:push:
     script:
         - docker push pitkley/python-swarm:2.7
 
+platformio:3.5.1:build:
+    stage: build stage 6
+    only:
+        - master
+        - /ci-/
+        - /-ci/
+        - /platformio/
+    script:
+        - cd platformio/3.5.1
+        - docker build -t pitkley/platformio:3.5.1 .
+
+platformio:3.5.1:push:
+    stage: push
+    only:
+        - master
+    script:
+        - docker push pitkley/platformio:3.5.1
+
 python-swarm:2.7.12:build:
     stage: build stage 6
     only:
@@ -354,6 +372,24 @@ python-swarm:2.7.12:push:
         - master
     script:
         - docker push pitkley/python-swarm:2.7.12
+
+platformio:latest:build:
+    stage: build stage 7
+    only:
+        - master
+        - /ci-/
+        - /-ci/
+        - /platformio/
+    script:
+        - cd platformio/latest
+        - docker build -t pitkley/platformio:latest .
+
+platformio:latest:push:
+    stage: push
+    only:
+        - master
+    script:
+        - docker push pitkley/platformio:latest
 
 python-swarm:3:build:
     stage: build stage 7
