@@ -13,7 +13,7 @@ BLACKLIST = [
 ]
 
 
-TEMPLATE_BASE = """
+TEMPLATE_BASE = """\
 stages:
     - pull
 {build_stages}
@@ -23,7 +23,6 @@ stages:
 image: docker:latest
 before_script:
     - docker info
-
 {pull}
 {content}
 
@@ -61,6 +60,7 @@ TEMPLATE_CONTENT = """
     only:
         - master
     script:
+        - docker login --username "$DOCKER_HUB_USERNAME" --password "$DOCKER_HUB_PASSWORD"
         - docker push pitkley/{package}:latest
 """
 
@@ -81,6 +81,7 @@ TEMPLATE_CONTENT_VERSION = """
     only:
         - master
     script:
+        - docker login --username "$DOCKER_HUB_USERNAME" --password "$DOCKER_HUB_PASSWORD"
         - docker push pitkley/{package}:{version}
 """
 
